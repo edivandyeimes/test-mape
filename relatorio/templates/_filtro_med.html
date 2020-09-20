@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nome do Médico</th>
+      <th>Número da Guia</th>
+      <th>Data da Consulta</th>
+      <th>Valor da Consulta</th>
+      <th>Gasto por Consulta</th>
+      <th>QTDE Exames</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for consulta in consulta_list %}
+      <tr>
+        <td>{{ consulta.0 }}</td>
+        <td>{{ consulta.1 }}</td>
+        <td>{{ consulta.2 }}</td>
+        <td>{{ consulta.3 }}</td>
+        <td>{{ consulta.4 }}</td>
+        <td>{{ consulta.5 }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

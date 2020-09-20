@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+<!--bloco de títutlo-->
+{% block title %}<title>Relatório</title>{% endblock %}
+
+<!--bloco de cabecalho-->
+{% block header %}
+{% if consulta_list %}
+{% else %}
+  <div class="alert alert-primary" role="alert">
+    A pesquisa não retornou dados! <a href="index/" class="alert-link">Clique aqui</a> e retorne para o relatório completo.
+  </div>
+  {% endif %}
+  <header class="navbar navbar-expand navbar-dark bg-primary flex-column flex-md-row bd-navbar">
+    <a class="nav-link active text-white" href="#"><strong>Teste Mape</strong></a>
+    <a class="nav-link active text-white" href="index/">Principal</a>
+  </header>
+  {% endblock %}
+
+  <!--bloco do corpo da pagina-->
+  {% block content %}
+  <div class="container">
+    <br>
+    <div>
+      <form id="myForm" method="GET" class="form-inline">
+        <div class="form-group">
+          <label>Médico </label>
+          <div class="ml-sm-2 mr-sm-2">
+            <select id="selectmed" class="form-control ml-sm-2 mr-sm-2">
+              <option selected disabled="True">...</option>
+              {% if consulta_list %}
+                {% for consulta in consulta_list %}
+                <option>{{ consulta.0}}</option>
+                {% endfor %}
+              {% endif %}
+            </select> 
+          </div>         
+          <label>Data Inicial </label>
+          <input class="form-control ml-sm-2 mr-sm-2" type="date" value="AAAA-MM-DD" id="start_date">
+          <label>Data Final </label>
+          <input class="form-control ml-sm-2 mr-sm-2" type="date" value="AAAA-MM-DD" id="end_date">
+          <a id="filter" 
+          class="btn btn-primary" 
+          href="" 
+          role="button" 
+          data-url="{% url 'relatorio:filtro' %}?">Filtrar</a>
+        </div>
+      </form>
+    </div>
+    <br>
+    <div class="row" id="dataview">
+        <table class="table">
+          <thead class="bg-primary text-white">
+            <tr>
+              <th>Nome do Médico</th>
+              <th>Número da Guia</th>
+              <th>Data da Consulta</th>
+              <th>Valor da Consulta</th>
+              <th>Gasto por Consulta</th>
+              <th>QTDE Exames</th>
+            </tr>
+          </thead>
+            <tbody>
+              {% if consulta_list %}
+              {% for consulta in consulta_list %}
+                <tr>
+                  <td>{{ consulta.0 }}</td>
+                  <td>{{ consulta.1 }}</td>
+                  <td>{{ consulta.2 }}</td>
+                  <td>{{ consulta.3 }}</td>
+                  <td>{{ consulta.4 }}</td>
+                  <td>{{ consulta.5 }}</td>
+                </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+  <!--bloco de javascript-->
+  {% block js %}
+  <script>
+    $(document).ready(function(){
+      $("#selectmed").select2();
+    });
+
+    $(document).on("click", "#filter", function(event) {
+      let med = document.getElementById("selectmed").value;
+      let start_date = document.getElementById("start_date").value;
+      let end_date= document.getElementById("end_date").value;
+      let url = $(this).data('url');
+      if(med != null && med != '...') {
+        url = url+"med="+med;
+        if(start_date != null && start_date!="" && end_date != null && end_date!=""){
+          url = url+"&start_date="+start_date+"&end_date="+end_date;
+        }
+        
+        $.ajax({
+          url: url,
+          data: {
+            med : med,
+            start_date: start_date,
+            end_date : end_date,
+          },
+          success: function(response) {
+            $("#dataview").html(response);
+          }
+        })
+      }
+      else {
+        $.ajax({
+          url: url,
+          data: {
+            
+            start_date: start_date,
+            end_date : end_date,
+          },
+          success: function(response) {
+            $("#dataview").html(response);
+          }
+        })
+      } 
+      
+      event.preventDefault();
+    });
+  </script>    
+  {% endblock js %}  
+{% endblock %}
