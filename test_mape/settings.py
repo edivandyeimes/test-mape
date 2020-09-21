@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'test_mape.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbmh3qec70ihq3',
-        'USER': 'pjwxequjlncplf',
-        'PASSWORD': '1de31377cb0cb94eaf8ee607baa4afb21dba5539f5159421e18fc1723ec5b14f',
-        'HOST': 'ec2-54-157-234-29.compute-1.amazonaws.com',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '5432',
     }
 }
