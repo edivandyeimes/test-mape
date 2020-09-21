@@ -11,14 +11,22 @@ Projeto Django - Teste
 
 2. Edite o arquivo **settings.py**.
 
-3. Sincronize a base de dados:
+3. Configure a SECRET-KEY e o DEBUG:
 
-> python manage.py migrate
+> python3 manage.py contrib/env_gen.py 
 
-4. Crie um usuário administrador para o sistema:
+4. Configure os arquivos estáticos.
 
-> python manage.py createsuperuser
+> python3 manage.py collectstatic
 
-5. Inicie o servidor:
+5. Sincronize a base de dados:
+
+> python3 manage.py migrate
+
+6. Crie um usuário administrador para o sistema:
+
+> python3 manage.py createsuperuser
+
+7. Inicie o servidor:
 
 > python manage.py runserver
